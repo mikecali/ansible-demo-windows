@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: yes
+  
+  tasks:
+  - name: Install only particular updates based on the KB numbers
+    win_updates:
+      category_name:
+      - SecurityUpdates
+      whitelist:
+      - KB4056892
+      - KB4073117

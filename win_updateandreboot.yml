@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: yes
+  
+  tasks:
+  
+  - name: windows update
+    win_updates:
+      category_names: CriticalUpdates
+    register: update
+
+  - name: reboot if needed
+    win_reboot:
+    when: update.reboot_required 

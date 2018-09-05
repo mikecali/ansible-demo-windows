@@ -1,0 +1,34 @@
+---
+- name: Check if KB is installed
+# where do you want me to run this playbook ?
+  hosts: all
+  gather_facts: no  # Tower has a cache of these already :)
+
+# connection values for winrm : these have been added into the inventory for now
+  vars:
+    KB: KB2919355 
+  tasks:
+
+# This task works best in conjunction with an Ansible Tower survey
+# to feed in the value for our KB variable.
+# Example KB == KB2919355
+# Save output from hotfix test.
+  - name: Is KB {{ KB }} Installed?
+    win_shell: get-hotfix | out-string -stream | select-string "{{ KB }}"
+    register: WIN_CVE
+
+# Set default value if we didnt get results.
+  - set_fact:
+      found: |
+        {{ WIN_CVE.stdout.split()[:-1] or "notfound" }}
+# Check value within 'found' and compare it against KB article that was 
+# fed in via ansible tower survey.
+  - name: CVE is Installed
+    debug: 
+      msg: var="{{ KB }} is installed"
+    when: KB == found[2]
+
+  - name: CVE is not installed
+    debug:
+      msg: var="{{ KB }} is not installed"
+    when: KB != found[2] 
