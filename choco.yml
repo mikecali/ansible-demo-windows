@@ -1,7 +1,12 @@
 ---
 - hosts: all
   gather_facts: yes
+
   tasks:
   - win_chocolatey:
         name: procexp
         state: present
+
+#  - win_chocolatey:
+#        name: W3Svc
+#        state: present

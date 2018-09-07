@@ -16,8 +16,8 @@
   - name: Install HotFixes 
     win_hotfix:
       #hotfix_identifier: "{{ item }}"
-      #source: C:\windows8.1-kb4344147-x64_776ef21945d613cf0eb93a7b3f5e3af61fef83b0.msu
-      source: C:\{{ item }}
+      source: C:\windows10.0-kb4019472-x64_delta_c876f9bcf50eeec4520534e69c0b9a227c29f57c.msu
+      #source: C:\{{ item }}
       state: present
     with_items: "{{ patches }}"
     register: hotfix_install
